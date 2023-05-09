@@ -8,16 +8,25 @@ const AddUser = () => {
         const name = e.target.name.value
         const country = e.target.country.value
         const category = e.target.category.value
-        const newChocolate = {photo, name, country, category }
+        const newChocolate = { photo, name, country, category }
         console.log(newChocolate);
+
+        fetch('http://localhost:5000/chocolates', {
+            method:'POST',
+            headers:{
+                'content-type':'application/json'
+            },
+            body: JSON.stringify(newChocolate)
+        })
+            .then(res => res.json())
+            .then(data => {
+                console.log(data);
+            })
     }
 
     return (
         <div>
             <div className="container mx-auto w-2/3">
-                <div className='bg-[#91572B] mt-5 mb-5 mx-auto text-center py-3 rounded'>
-                    <h1 className='text-white text-2xl font-bold'>Chocolate Management System</h1>
-                </div>
                 <button className="btn mb-5">All Chocolates</button>
                 <hr />
 
