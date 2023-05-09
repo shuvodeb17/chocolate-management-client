@@ -1,10 +1,11 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import Swal from 'sweetalert2';
+import { Link, useLoaderData } from 'react-router-dom';
 
-const AddUser = () => {
+const Update = () => {
+    const update = useLoaderData()
+    const { _id, photo, name, category, country } = update
 
-    const chocolateHandler = e => {
+    const chocolateUpdater = e => {
         e.preventDefault()
         const photo = e.target.photo.value
         const name = e.target.name.value
@@ -13,8 +14,8 @@ const AddUser = () => {
         const newChocolate = { photo, name, country, category }
         console.log(newChocolate);
 
-        fetch('http://localhost:5000/chocolates', {
-            method: 'POST',
+        fetch(`http://localhost:5000/chocolate/${_id}`, {
+            method: 'PUT',
             headers: {
                 'content-type': 'application/json'
             },
@@ -23,12 +24,6 @@ const AddUser = () => {
             .then(res => res.json())
             .then(data => {
                 console.log(data);
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Successful...',
-                    text: 'Chocolate added!',
-                })
-
             })
     }
 
@@ -36,10 +31,9 @@ const AddUser = () => {
         <div>
             <div className="container mx-auto w-2/3">
                 <Link to='/'>
-                    <button className="btn mb-5">All Chocolates</button>
+                <button className="btn mb-5">Back</button>
                 </Link>
                 <hr />
-
 
                 {/* new chocolate */}
                 <div>
@@ -49,22 +43,22 @@ const AddUser = () => {
                             <p>Lorem ipsum dolor sit amet.</p>
                         </div>
 
-                        <form onSubmit={chocolateHandler}>
+                        <form onSubmit={chocolateUpdater}>
                             <div className='w-full px-20'>
                                 <p>Photo</p>
-                                <input name='photo' type="text" placeholder="Chocolate Photo" className="input input-bordered w-full" />
+                                <input defaultValue={photo} name='photo' type="text" placeholder="Chocolate Photo" className="input input-bordered w-full" />
                             </div>
                             <div className='w-full px-20'>
                                 <p>Name</p>
-                                <input name='name' type="text" placeholder="Chocolate Name" className="input input-bordered w-full" />
+                                <input defaultValue={name} name='name' type="text" placeholder="Chocolate Name" className="input input-bordered w-full" />
                             </div>
                             <div className='w-full px-20 mt-5'>
                                 <p>Country</p>
-                                <input name='country' type="text" placeholder="Country" className="input input-bordered w-full" />
+                                <input defaultValue={country} name='country' type="text" placeholder="Country" className="input input-bordered w-full" />
                             </div>
                             <div className='w-full px-20 mt-5'>
                                 <p>Category</p>
-                                <input name='category' type="text" placeholder="Premium or Free" className="input input-bordered w-full" />
+                                <input defaultValue={category} name='category' type="text" placeholder="Premium or Free" className="input input-bordered w-full" />
 
                                 {/* <select className='input w-full'>
                                     <option name='premium' value="premium">Premium</option>
@@ -73,7 +67,7 @@ const AddUser = () => {
 
                             </div>
                             <div className='w-full px-20 mt-5'>
-                                <button className="btn btn-block">Save</button>
+                                <button className="btn btn-block">Update</button>
                             </div>
                         </form>
                     </div>
@@ -83,5 +77,4 @@ const AddUser = () => {
     );
 };
 
-
-export default AddUser;
+export default Update;

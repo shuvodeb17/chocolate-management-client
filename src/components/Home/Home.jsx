@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useLoaderData } from 'react-router-dom';
 import ChocolateData from '../ChocolateData/ChocolateData';
 import { Link } from 'react-router-dom';
@@ -6,7 +6,8 @@ import { PlusIcon, PencilSquareIcon } from '@heroicons/react/24/solid'
 
 
 const Home = () => {
-    const allChocolates = useLoaderData()
+    const allChocolates = useLoaderData();
+    const [chocolates, setChocolates] = useState(allChocolates)
 
     return (
         <div>
@@ -33,9 +34,11 @@ const Home = () => {
                             <tbody>
                                 {/* row 1 */}
                                 {
-                                    allChocolates.map(chocolate => <ChocolateData
+                                    chocolates.map(chocolate => <ChocolateData
                                         key={chocolate._id}
                                         chocolate={chocolate}
+                                        chocolates={chocolates}
+                                        setChocolates={setChocolates}
                                     ></ChocolateData>)
                                 }
                             </tbody>
